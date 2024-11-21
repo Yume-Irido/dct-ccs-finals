@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $password = $_POST['password'];
 
     if (loginUser($email, $password)) {
-        header("Location: dashboard.php"); // Redirect to a dashboard or another page
+        header("Location: admin/dashboard.php"); // Redirect to a dashboard or another page
         exit();
     } else {
 

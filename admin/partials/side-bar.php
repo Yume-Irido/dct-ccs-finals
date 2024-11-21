@@ -24,9 +24,7 @@
                     </a>
                 </li>                
             </ul>
-           
             <hr class="my-3">
-
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="#">
