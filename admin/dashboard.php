@@ -1,8 +1,14 @@
 <?php
 session_start();
 $title = "Dashboard";
-include("partials/header.php"); 
+include("partials/header.php");
 include("partials/side-bar.php");
+
+if (!isset($_SESSION['user'])) {
+    header("Location: /");
+    exit();
+}
+
 
 ?>
 <!-- Template Files here -->
@@ -34,6 +40,7 @@ include("partials/side-bar.php");
                 </div>
             </div>
         </div>
+
         <div class="col-12 col-xl-3">
             <div class="card border-success mb-3">
                 <div class="card-header bg-success text-white border-success">Number of Passed Students:</div>
