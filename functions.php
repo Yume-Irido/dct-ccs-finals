@@ -1,6 +1,7 @@
 <?php
 // Database connection function
-function connectDatabase() {
+function connectDatabase()
+{
     $host = 'localhost';
     $username = 'root'; // Replace with your MySQL username
     $password = '';     // Replace with your MySQL password
@@ -17,7 +18,8 @@ function connectDatabase() {
 }
 
 // Login function
-function loginUser($email, $password) {
+function loginUser($email, $password)
+{
     $conn = connectDatabase();
 
     // Sanitize input
@@ -40,5 +42,39 @@ function loginUser($email, $password) {
         $conn->close();
         return false;
     }
+}
+
+function handleLogin()
+{
+    // Initialize message variable
+    $message = '';
+
+    // Check if form is submitted
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+        // Sanitize and validate the email
+        $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+        $password = $_POST['password']; // Password will be checked securely
+
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $message = "<span><li>Invalid email format</li></span>";
+        } else {
+            // Check if email and password are non-empty
+            if (empty($email) || empty($password)) {
+                $message = "<span><li>Email is required.</li><li>Password is required.</li></span>";
+            } else {
+                // Call the login function to check credentials (assumed it uses password_hash and password_verify)
+                if (loginUser($email, $password)) {
+                    // Store user login state in session
+                    $_SESSION['user'] = $email; // Or store user ID if needed
+                    header("Location: admin/dashboard.php"); // Redirect to a dashboard or another page
+                    exit();
+                } else {
+                    $message = "<span><li>Invalid email</li><li>Invalid password</li></span>";
+                }
+            }
+        }
+    }
+     return $message; // Return any error or success message
 }
 ?>

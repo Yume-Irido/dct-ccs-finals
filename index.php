@@ -1,28 +1,11 @@
 <?php
 require 'functions.php'; // Include the functions file
+session_start(); // Start the session to track login state
 
 // Handle form submission
-$message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+$message = handleLogin();
 
-    if (loginUser($email, $password)) {
-        header("Location: admin/dashboard.php"); // Redirect to a dashboard or another page
-        exit();
-    } else {
 
-        if(empty($email) || empty($password))
-        {
-            $message = "<span><li>Email is required.</li><li>Password is required.</li></span>";
-        }
-        else
-        {
-            $message = "<span><li>Invalid email</li><li>Invalid password</li></span>";
-        }
-
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -52,13 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                     <h1 class="h3 mb-4 fw-normal">Login</h1>
                     <form method="post" action="">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="email" name="email"
-                                placeholder="user1@example.com">
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="user1@example.com" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
                             <label for="email">Email address</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Password">
+                                placeholder="Password" required>
                             <label for="password">Password</label>
                         </div>
                         <div class="form-floating mb-3">
