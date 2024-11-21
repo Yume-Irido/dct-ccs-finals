@@ -1,3 +1,20 @@
+<?php
+session_start();
+include 'functions.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = md5($_POST['password']); // MD5 hashing
+
+    if (authenticate($username, $password)) {
+        $_SESSION['user'] = $username;
+        header('Location: dashboard.php');
+        exit;
+    } else {
+        $error = "Invalid username or password.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
